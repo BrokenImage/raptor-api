@@ -24,14 +24,14 @@ from flask_restplus import Api, Resource, fields
 app = Flask(__name__)
 
 api = Api(app, version="1.0", title="Anomaly Detection", description="")
-ns = api.namespace('index')
+ns = api.namespace('api')
 
 single_parser = api.parser()
 single_parser.add_argument("file", location="files", type=FileStorage, required=True)
 
 # DON'T UPLOAD YOUR MODEL IN THE BODY OF YOUR ROUTE FUNCTION
 # model will be loaded every time a request comes in
-# TODO: REPLACE THIS WITH GOOGLE DRIVE LINK
+# TODO: REPLACE THIS WITH GOOGLE DRIVE LINK OR A FUNCTION THAT CALLS THE MODEL REGISTRY
 # https://drive.google.com/file/d/1nBnJVWhAF7UDfKQAkDvUmF-NKpyXHShP/view?usp=sharing
 model = load_model("./models/model.h5") 
 graph = tf.get_default_graph()
@@ -59,4 +59,4 @@ class MultiClassification(Resource):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=os.environ.get("PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=5000)
