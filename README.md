@@ -6,9 +6,11 @@ as input and output a anomalies classification for the given image.
 There are two main parts of this API:
 
 1. Model Registry  
-    The model registry is a database of models that contain old and new models that have been or are going to be used in the preidction api
-
+    Status:
+    Currently not implemented other than a class for handiling model upload in the main raptor repo
+    
 2. Prediction API  
-    The prediction api will pull the latest and deployable model from the model registry to make prediction for the website and possible clients.
+    Status:
+    Currently can be deploy to EC2 and be called through port 80 with nginx. However, it is only http and thus can't be called by the react website
 
 The end goal of this module is to have an secure api for making prediction with the models developed from the model development module/folder. (The website may be ran from this service as well for a more secure connection to it)
