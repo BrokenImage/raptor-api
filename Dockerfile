@@ -15,8 +15,8 @@ ADD . /app
 WORKDIR /app
 
 # STEP 8: Expose the port Flask is running on
-EXPOSE 5000
+EXPOSE 8000
 
 # STEP 9: Run Flask with Gunicorn managing it
-CMD ["gunicorn","--bind","0.0.0.0:5000","wsgi"]
+CMD ["gunicorn","--bind","0.0.0.0","wsgi"]
 # CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
