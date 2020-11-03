@@ -1,62 +1,55 @@
-# from pymongo import MongoClient
-# from bson.objectid import ObjectId
-
-# local deployment
-# client = MongoClient()
-# db = client.Playlister # replace Playlister with database name
-# playlists = db.playlists # replace playlists with collection name
-
 import os
-
+import boto3
 import numpy as np
-from PIL import Image
-
 import tensorflow as tf
-from keras.preprocessing.image import img_to_array
+from flask import Flask
+from dotenv import load_dotenv
+from pymongo import MongoClient
 from keras.models import load_model
-from werkzeug.datastructures import FileStorage
-from keras.models import model_from_json
 from sklearn.preprocessing import LabelEncoder
+from werkzeug.datastructures import FileStorage
+from flask_restplus import Api, Resource
+from utils.Model import ModelManager
+load_dotenv()
 
-from flask import Flask, request, jsonify
-from flask_restplus import Api, Resource, fields
+# Mongodb connection
+client = MongoClient(os.environ['MONGO_CLIENT_URL'])
+db = client.registry
 
+# AWS S3 connection
+session = boto3.Session(
+    aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'], 
+    aws_secret_access_key=os.environ['AWS_SECRET_KEY']
+)
+s3 = session.resource('s3')
+
+# App and API setup
 app = Flask(__name__)
-
 api = Api(app, version="1.0", title="Anomaly Detection", description="")
 ns = api.namespace('api')
-
 single_parser = api.parser()
 single_parser.add_argument("file", location="files", type=FileStorage, required=True)
 
-# DON'T UPLOAD YOUR MODEL IN THE BODY OF YOUR ROUTE FUNCTION
-# model will be loaded every time a request comes in
-# TODO: REPLACE THIS WITH GOOGLE DRIVE LINK OR A FUNCTION THAT CALLS THE MODEL REGISTRY
-# https://drive.google.com/file/d/1nBnJVWhAF7UDfKQAkDvUmF-NKpyXHShP/view?usp=sharing
-model = load_model("./models/model.h5") 
 graph = tf.get_default_graph()
+backup_model = load_model("./models/backup/model.h5") 
+backup_label_encoder = LabelEncoder()
+backup_label_encoder.classes_ = np.load("./models/backup/classes.npy")
 
-# @app.route("/multi", methods=["GET"])
 @ns.route("/multi")
 class MultiClassification(Resource):
     @api.doc(parser=single_parser, description='Upload an image of a solar panel')
     def post(self):
-        label_encoder = LabelEncoder()
-        label_encoder.classes_ = np.load("./models/classes.npy")
+        model = ModelManager(db, s3, graph, backup_model, backup_label_encoder,
+            bucket_name=os.environ['AWS_BUCKET_NAME'])
+        model.load_latest_model()
+        
         args = single_parser.parse_args()
         image_file = args.file
-        img = Image.open(image_file)
-        image_resize = img.resize((40, 24))
-        image = img_to_array(image_resize)
-        x = image.reshape(1, 40, 24, 1)
-        x = x / 255
-        with graph.as_default():
-            out = model.predict_classes(x)
+        image_array = model.preprocess(image_file)
 
-        pred = label_encoder.inverse_transform(out)
-
+        pred = model.predict(image_array)
         return {'prediction': str(pred)}
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0")

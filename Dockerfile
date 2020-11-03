@@ -6,7 +6,7 @@ FROM python:3.7-slim-buster
 ADD requirements.txt /requirements.txt
 
 # STEP 3: Install requirements from requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt && pip install 'pymongo[srv]'
 
 # STEP 4: Copy source code in current directoy to the container
 ADD . /app
@@ -19,4 +19,3 @@ EXPOSE 8000
 
 # STEP 9: Run Flask with Gunicorn managing it
 CMD ["gunicorn","--bind","0.0.0.0","wsgi"]
-# CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
