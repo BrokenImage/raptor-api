@@ -8,6 +8,7 @@ from pymongo import MongoClient
 from keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 from werkzeug.datastructures import FileStorage
+from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_restplus import Api, Resource
 from utils.Model import ModelManager
 load_dotenv()
@@ -25,6 +26,8 @@ s3 = session.resource('s3')
 
 # App and API setup
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
 api = Api(app, version="1.0", title="Anomaly Detection", description="")
 ns = api.namespace('api')
 single_parser = api.parser()

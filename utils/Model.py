@@ -67,3 +67,4 @@ class ModelManager():
         self.s3_bucket.download_file(classes, f'./models/{classes}')
         os.environ['MODEL_NAME'] = latest_model['name']
         os.environ['MODEL_VERSION'] = str(latest_model['version'])
+
