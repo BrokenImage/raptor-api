@@ -2,6 +2,12 @@
 FROM python:3.7-slim-buster
 # FROM tensorflow/tensorflow:2.2.0
 
+# STEP 2: Setup enviroment variables
+ARG AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+ARG AWS_SECRET_KEY=${AWS_SECRET_KEY}
+ARG AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
+ARG MONGO_CLIENT_URL=${MONGO_CLIENT_URL}
+
 # STEP 2: Add the requirements.txt file
 ADD requirements.txt /requirements.txt
 
