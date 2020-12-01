@@ -15,10 +15,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <h3 align="center">Sonomaly Machine Learning Backend</h3>
+  <h3 align="center">Sonomaly Prediction API</h3>
 
   <p align="center">
-    The backend for the Sonomaly machine learning application parts like the prediction API, model registry, and tigger logs.
+    The API backend for the Sonomaly frontend website
     <br />
     <a href="https://github.com/BrokenImage/raptor-api"><strong>Explore the docs »</strong></a>
     <br />
@@ -65,7 +65,7 @@ This is only one part of this project and you should look at the other parts on 
 * [Flask RestPlus](https://flask-restplus.readthedocs.io/en/stable/)
 * [Caprover](https://caprover.com/)
 * [AWS](https://aws.amazon.com/ec2/)
-* [MongoDB](https://www.mongodb.com/)
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -79,17 +79,20 @@ Lets get into setting this up for yourself.
 ```sh
 git clone https://github.com/BrokenImage/raptor-api.git
 ```
-3. Build and start the needed Docker images with Docker Compose (make sure Docker is running)
+3. Build the Docker image (make sure Docker is running)
 ```sh
-docker-compose up
+docker build -t sonomaly-api .
+```
+4. Start a Docker container
+```sh
+docker run -p 8000:8000 --rm --name sonomaly-api-container sonomaly-api
 ```
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-* The API can be called from Postman, using curl, or you can use the swagger UI by going to port 8000
-* The model registry is hosted using the MongoDB console site
+The API can be called from Postman, using curl, or you can use the swagger ui by going to port 8000
 
 
 <!-- ROADMAP -->

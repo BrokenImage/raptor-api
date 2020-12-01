@@ -15,10 +15,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <h3 align="center">Sonomaly Machine Learning Backend</h3>
+  <h3 align="center">Sonomaly Online Model Training</h3>
 
   <p align="center">
-    The backend for the Sonomaly machine learning application parts like the prediction API, model registry, and tigger logs.
+    The deployment for the api to call when a new model needs to be trained automatically on new data because of a tigger determined on the api side, usually model accuracy decreasing.
     <br />
     <a href="https://github.com/BrokenImage/raptor-api"><strong>Explore the docs »</strong></a>
     <br />
@@ -75,21 +75,13 @@ Lets get into setting this up for yourself.
 ### Installation
 
 1. Install Docker following the instructions [here](https://docs.docker.com/get-docker/)
-2. Clone the repo
-```sh
-git clone https://github.com/BrokenImage/raptor-api.git
-```
-3. Build and start the needed Docker images with Docker Compose (make sure Docker is running)
-```sh
-docker-compose up
-```
+2. Currently in progress...
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-* The API can be called from Postman, using curl, or you can use the swagger UI by going to port 8000
-* The model registry is hosted using the MongoDB console site
+* The goal/usage of this part of the service is to allow the api to train the model automatically without needing to have human involvment. Specificaly, this part is the current deployment of the automated training process with a specific framework includes thats allowing for the training to be hosted online. 
 
 
 <!-- ROADMAP -->
