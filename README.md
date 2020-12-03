@@ -15,10 +15,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <h3 align="center">Sonomaly Machine Learning Backend</h3>
+  <h3 align="center">Sonomaly Backend</h3>
 
   <p align="center">
-    The backend for the Sonomaly machine learning application parts like the prediction API, model registry, and tigger logs.
+    The backend for the Sonomaly application splits into the prediction API, model-training, and online model training.
     <br />
     <a href="https://github.com/BrokenImage/raptor-api"><strong>Explore the docs »</strong></a>
     <br />
