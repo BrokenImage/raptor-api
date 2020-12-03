@@ -74,29 +74,7 @@ Lets get into setting this up for yourself.
 
 ### Installation
 
-1. Install Docker following the instructions [here](https://docs.docker.com/get-docker/)
-2. Clone the repo
-```sh
-git clone https://github.com/BrokenImage/raptor-api.git
-```
-4. Generally, follow [this](https://medium.com/swlh/caprover-the-definitive-guide-90076405aae4) guide to setup caprover on an Ubuntu server hosted by the cloud service of your choice. (we used AWS EC2 free tier)
-5. Create a new app on your caprover server with the name of your choice.
-6. Add enviroment variables needed for the API to run, creating the realted resouces following standard guidelines
-```sh
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_KEY=
-AWS_BUCKET_NAME=
-MONGO_CLIENT_URL=
-```
-6. Compact the prediction API into a .tar file (mac os command)
-```sh
-tar -czf prediction-api.tar prediction-api/
-```
-7. Upload the file to the caprover app you created earlier.
-8. Make sure the build is successful on the caprover deployment logs
-9. Go to the url you setup during the caprover setup and you should see the swagger ui for the api
-
-ps. Due to issues with swagger ui not handling multiple file upload properly, you will not be able to test it there but the api will work when properly sent request.
+Each fold of the application has their own README.cd files that explain how they are installed and deployed.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
