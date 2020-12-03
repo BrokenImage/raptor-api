@@ -51,7 +51,7 @@ class MultiClassification(Resource):
 
         preds = []
         for image in image_files:
-            image_array = model.preprocess(image_file)
+            image_array = model.preprocess(image)
             preds.append(model.predict(image_array)[0])
 
         return {'prediction': str(preds)}
