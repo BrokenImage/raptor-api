@@ -31,14 +31,14 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 api = Api(app, version="1.0", title="Anomaly Detection", description="")
 ns = api.namespace('api')
 single_parser = api.parser()
-single_parser.add_argument("file", location="files", type=FileStorage, required=True)
+single_parser.add_argument("files", location="files", type=FileStorage, action='append', required=True)
 
 graph = tf.get_default_graph()
 backup_model = load_model("./models/backup/model.h5") 
 backup_label_encoder = LabelEncoder()
 backup_label_encoder.classes_ = np.load("./models/backup/classes.npy")
 
-@ns.route("/multi")
+@ns.route("/classify")
 class MultiClassification(Resource):
     @api.doc(parser=single_parser, description='Upload an image of a solar panel')
     def post(self):
@@ -47,11 +47,14 @@ class MultiClassification(Resource):
         model.load_latest_model()
         
         args = single_parser.parse_args()
-        image_file = args.file
-        image_array = model.preprocess(image_file)
+        image_files = args.files
 
-        pred = model.predict(image_array)
-        return {'prediction': str(pred)}
+        preds = []
+        for image in image_files:
+            image_array = model.preprocess(image_file)
+            preds.append(model.predict(image_array)[0])
+
+        return {'prediction': str(preds)}
 
 
 if __name__ == "__main__":
