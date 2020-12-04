@@ -74,7 +74,7 @@ Lets get into setting this up for yourself.
 
 ### Installation
 
-Each fold of the application has their own README.cd files that explain how they are installed and deployed.
+Each folder in this repo has their own README.cd files that explain how they are installed and deployed. Other features, like the mongodb database and AWS S3 bucket should be setup using the usual setup instructutions given by MongoDB Client and AWS Bucker creation page.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
